@@ -689,10 +689,10 @@ function injectSharedShell(activePage) {
 
           <ul class="nav-links" id="mainNavLinks">
             <li><a href="index.html" class="${activePage === 'inicio' ? 'active' : ''}">Inicio</a></li>
-            <li><a href="tienda.html" class="${activePage === 'tienda' ? 'active' : ''}">Tienda & Kit</a></li>
-            <li><a href="academia.html" class="${activePage === 'academia' ? 'active' : ''}">Academia & Retos</a></li>
+            <li><a href="tienda.html" class="${activePage === 'tienda' ? 'active' : ''}">Shopping Baila Baila</a></li>
+            <li><a href="academia.html" class="${activePage === 'academia' ? 'active' : ''}">Retos Don Baila</a></li>
             <li><a href="tradicion.html" class="${activePage === 'tradicion' ? 'active' : ''}">Tradición SV</a></li>
-            <li><a href="checkout.html" class="${activePage === 'checkout' ? 'active' : ''}">Pagar / Pedidos</a></li>
+            <li><a href="checkout.html" class="${activePage === 'checkout' ? 'active' : ''}">Money Baila Baila</a></li>
           </ul>
 
           <div class="nav-actions">
