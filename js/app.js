@@ -397,7 +397,7 @@ function openQuickView(productId) {
   content.innerHTML = `
     <span class="badge-pill ${prod.tagColor}">${prod.badge}</span>
     <h2 style="margin:12px 0 8px;">${prod.name}</h2>
-    <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:20px; align-items:center; margin:16px 0;">
+    <div class="quickview-grid">
       <div class="product-thumb" style="margin:0; height:180px;">
         ${getArtworkSVG(prod.artType, 135)}
       </div>
@@ -586,7 +586,7 @@ function toggleDonBaila(forceState) {
   if (shouldOpen) {
     renderChatMessages();
     const input = document.getElementById('donBailaInput');
-    if (input) setTimeout(() => input.focus(), 120);
+    if (input && window.innerWidth > 768) setTimeout(() => input.focus(), 120);
   }
 }
 
@@ -689,10 +689,10 @@ function injectSharedShell(activePage) {
 
           <ul class="nav-links" id="mainNavLinks">
             <li><a href="index.html" class="${activePage === 'inicio' ? 'active' : ''}">Inicio</a></li>
-            <li><a href="tienda.html" class="${activePage === 'tienda' ? 'active' : ''}">Shopping Baila Baila</a></li>
-            <li><a href="academia.html" class="${activePage === 'academia' ? 'active' : ''}">Aprendizaje & Retos</a></li>
+            <li><a href="tienda.html" class="${activePage === 'tienda' ? 'active' : ''}">Tienda & Kit</a></li>
+            <li><a href="academia.html" class="${activePage === 'academia' ? 'active' : ''}">Academia & Retos</a></li>
             <li><a href="tradicion.html" class="${activePage === 'tradicion' ? 'active' : ''}">Tradición SV</a></li>
-            <li><a href="checkout.html" class="${activePage === 'checkout' ? 'active' : ''}">Money Baila Baila</a></li>
+            <li><a href="checkout.html" class="${activePage === 'checkout' ? 'active' : ''}">Pagar / Pedidos</a></li>
           </ul>
 
           <div class="nav-actions">

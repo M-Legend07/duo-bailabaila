@@ -53,6 +53,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 /* Compensación para anclas internas bajo la cabecera fija */
@@ -67,8 +68,11 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M18,32 C30,12 52,18 45,42 C38,60 10,50 18,32 Z' fill='%23E6CFA9' fill-opacity='0.52'/%3E%3Cpath d='M82,74 C98,56 116,70 106,90 C96,108 72,92 82,74 Z' fill='%23E6CFA9' fill-opacity='0.52'/%3E%3Ccircle cx='92' cy='28' r='7' fill='%23E6CFA9' fill-opacity='0.48'/%3E%3Ccircle cx='32' cy='94' r='6' fill='%23E6CFA9' fill-opacity='0.48'/%3E%3C/svg%3E");
   line-height: 1.55;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 main {
@@ -482,6 +486,50 @@ h1, h2, h3, h4, .font-display {
   50% { transform: translateY(-9px) rotate(2deg); }
 }
 
+
+/* Grids auxiliares responsivos */
+.hero-toys-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: center;
+  margin: 14px 0;
+}
+
+.hero-toy-card {
+  background: var(--bg-cream);
+  border: 2px solid var(--border-sand);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+}
+
+.quickview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.promo-banner-box {
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  border: 3px solid var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 /* ==========================================================================
    TARJETAS DE PRODUCTO Y COMPONENTES DEL KIT
    ========================================================================== */
@@ -817,6 +865,7 @@ h1, h2, h3, h4, .font-display {
   width: 100%;
   max-width: 420px;
   height: 100vh;
+  height: 100dvh;
   background: var(--bg-cream);
   border-left: 3px solid var(--choco-dark);
   z-index: 1200;
@@ -1026,6 +1075,7 @@ h1, h2, h3, h4, .font-display {
   max-width: 395px;
   height: 520px;
   max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px);
   background: var(--surface-card);
   border: 3px solid var(--choco-dark);
   border-radius: var(--radius-lg);
@@ -1241,7 +1291,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* ==========================================================================
-   RESPONSIVE
+   RESPONSIVE (Tablets, Celulares Estándar y Pantallas Compactas 320px+)
    ========================================================================== */
 @media (max-width: 960px) {
   .hero-grid,
@@ -1262,7 +1312,15 @@ h1, h2, h3, h4, .font-display {
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
+  .section {
+    padding: 46px 0;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
   .mobile-menu-btn {
     display: inline-flex;
   }
@@ -1275,33 +1333,257 @@ h1, h2, h3, h4, .font-display {
     background: var(--bg-cream);
     border-bottom: 3px solid var(--choco-dark);
     flex-direction: column;
-    padding: 16px;
+    padding: 14px 16px;
+    gap: 6px;
     display: none;
-    box-shadow: 0 10px 20px rgba(84, 35, 20, 0.15);
+    box-shadow: 0 12px 24px rgba(84, 35, 20, 0.18);
+    z-index: 950;
   }
 
   .nav-links.open {
     display: flex;
   }
 
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 11px 16px;
+  }
+
   .cards-grid-3,
   .cards-grid-4,
   .footer-grid,
   .form-row-2,
-  .payment-methods {
+  .payment-methods,
+  .quickview-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Evita auto-zoom en iOS Safari al enfocar inputs */
+  .form-control,
+  .db-chat-input {
+    font-size: 16px;
+  }
+
+  /* Tabs de Academia apilados limpiamente en celular */
+  .tabs-nav {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    width: 100%;
+  }
+
+  .tab-btn {
+    width: 100%;
+    text-align: center;
+    padding: 11px 14px;
+    font-size: 0.9rem;
+  }
+
+  /* ASISTENTE "DON BAILA" EN CELULAR: SOLO LA RUEDITA CON EL LOGO */
   .don-baila-launcher {
-    bottom: 14px;
-    right: 14px;
-    padding: 7px 14px 7px 8px;
+    bottom: 16px;
+    right: 16px;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .don-baila-label {
+    display: none !important;
+  }
+
+  .don-baila-avatar {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .don-baila-avatar svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .don-baila-online-dot {
+    bottom: 1px;
+    right: 1px;
+    width: 12px;
+    height: 12px;
   }
 
   .don-baila-panel {
-    right: 14px;
-    bottom: 80px;
-    width: calc(100vw - 28px);
+    left: 12px;
+    right: 12px;
+    bottom: 82px;
+    width: auto;
+    max-width: none;
+    height: min(460px, calc(100vh - 102px));
+    height: min(460px, calc(100dvh - 102px));
+    max-height: calc(100dvh - 102px);
+  }
+
+  /* Toast no tapa la ruedita de Don Baila en móvil */
+  .toast-container {
+    bottom: 18px;
+    left: 12px;
+    right: 80px;
+  }
+
+  .toast {
+    border-radius: var(--radius-md);
+    font-size: 0.84rem;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  .top-ribbon {
+    font-size: 0.69rem;
+    padding: 5px 10px;
+    line-height: 1.3;
+  }
+
+  .nav-inner {
+    height: 66px;
+    gap: 8px;
+  }
+
+  .brand-logo {
+    gap: 7px;
+  }
+
+  .brand-logo svg {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+
+  .brand-duo {
+    font-size: 1.12rem;
+  }
+
+  .brand-duo .rays {
+    font-size: 0.82rem;
+  }
+
+  .brand-baila {
+    font-size: 0.96rem;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .cart-trigger {
+    padding: 7px 11px;
+    font-size: 0.82rem;
+    gap: 5px;
+  }
+
+  .cart-badge {
+    min-width: 20px;
+    height: 20px;
+    font-size: 0.72rem;
+    padding: 0 5px;
+  }
+
+  .mobile-menu-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+
+  .hero {
+    padding: 28px 0 42px;
+  }
+
+  .hero-lead {
+    font-size: 0.98rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .hero-stage {
+    padding: 22px 14px 16px;
+  }
+
+  .hero-stage-badge {
+    right: 12px;
+    font-size: 0.72rem;
+    padding: 5px 12px;
+  }
+
+  .hero-toys-grid {
+    gap: 10px;
+  }
+
+  .hero-toy-card {
+    padding: 10px 8px;
+  }
+
+  .hero-toy-card svg {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto;
+  }
+
+  .craft-card {
+    padding: 18px 16px;
+  }
+
+  .promo-banner-box {
+    padding: 22px 16px;
+  }
+
+  .promo-banner-box .btn {
+    width: 100%;
+  }
+
+  .timer-controls {
+    width: 100%;
+  }
+
+  .timer-controls #timerDisplay {
+    width: 100%;
+  }
+
+  .timer-controls .btn {
+    flex: 1;
+  }
+
+  .stickers-showcase {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-box {
+    padding: 20px 16px;
+  }
+
+  .virtual-card {
+    padding: 16px;
   }
 }
 
