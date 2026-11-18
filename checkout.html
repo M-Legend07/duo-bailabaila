@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar Compra & Pago | DÚO BAILA BAILA</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="section" style="padding-top:42px;">
+      <div class="container">
+        <div class="section-header" style="margin-bottom:32px;">
+          <span class="badge-pill gold">Checkout Seguro · El Salvador</span>
+          <h1>Finaliza tu Pedido</h1>
+          <p>Completa tus datos de entrega y elige tu método de pago preferido en USD ($).</p>
+        </div>
+
+        <div class="checkout-grid" id="checkoutMainGrid">
+          <!-- COLUMNA IZQUIERDA: FORMULARIO DE ENVÍO Y PAGO -->
+          <form class="craft-card" id="checkoutForm" onsubmit="processSimulatedPayment(event)">
+            <h3 style="margin-bottom:14px;">1. Datos de Entrega</h3>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Nombre completo *</label>
+                <input type="text" class="form-control" id="custName" required placeholder="Ej. Carlos Mendoza">
+              </div>
+              <div class="form-group">
+                <label>Teléfono / WhatsApp *</label>
+                <input type="tel" class="form-control" id="custPhone" required placeholder="7000-0000">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Correo electrónico *</label>
+                <input type="email" class="form-control" id="custEmail" required placeholder="carlos@ejemplo.sv">
+              </div>
+              <div class="form-group">
+                <label>Departamento / Entrega *</label>
+                <select class="form-control" id="custDept" onchange="renderCheckoutSummary()">
+                  <option value="retiro" data-ship="0">Retiro en Punto Artesanal San Salvador ($0.00)</option>
+                  <option value="San Salvador" data-ship="3.00" selected>San Salvador — Área Metropolitana ($3.00)</option>
+                  <option value="La Libertad" data-ship="3.50">La Libertad / Santa Tecla ($3.50)</option>
+                  <option value="Santa Ana" data-ship="4.50">Santa Ana ($4.50)</option>
+                  <option value="San Miguel" data-ship="5.00">San Miguel ($5.00)</option>
+                  <option value="Otros" data-ship="4.50">Resto de El Salvador ($4.50)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Dirección exacta de entrega *</label>
+              <input type="text" class="form-control" id="custAddress" required placeholder="Colonia, calle, número de casa o punto de referencia">
+            </div>
+
+            <hr style="border:none; border-top:2px dashed var(--border-sand); margin:20px 0;">
+
+            <h3 style="margin-bottom:12px;">2. Método de Pago</h3>
+            <div class="payment-methods">
+              <div class="pay-option active" onclick="selectPaymentMethod('card', this)">💳 Tarjeta Crédito/Débito</div>
+              <div class="pay-option" onclick="selectPaymentMethod('qr', this)">📱 Transferencia / QR</div>
+              <div class="pay-option" onclick="selectPaymentMethod('cash', this)">💵 Contra Entrega</div>
+            </div>
+
+            <!-- DETALLE MÉTODO: TARJETA -->
+            <div id="payPanel-card">
+              <div class="virtual-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                  <span style="font-size:0.78rem; letter-spacing:0.08em; color:var(--gold); font-weight:800;">TARJETA SIMULADA</span>
+                  <span style="font-weight:800;">VISA / MC</span>
+                </div>
+                <div id="previewCardNumber" style="font-family:monospace; font-size:1.25rem; letter-spacing:0.12em; margin-bottom:16px;">•••• •••• •••• 4242</div>
+                <div style="display:flex; justify-content:space-between; font-size:0.82rem;">
+                  <span id="previewCardHolder">TITULAR DEL KIT</span>
+                  <span id="previewCardExp">12/28</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Número de tarjeta</label>
+                <input type="text" class="form-control" id="cardNumber" maxlength="19" placeholder="4532 0151 1283 4242" oninput="formatCardInput(this)">
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Vencimiento (MM/AA)</label>
+                  <input type="text" class="form-control" id="cardExp" maxlength="5" placeholder="12/28" oninput="document.getElementById('previewCardExp').textContent = this.value || '12/28'">
+                </div>
+                <div class="form-group">
+                  <label>Código CVV</label>
+                  <input type="password" class="form-control" id="cardCvv" maxlength="4" placeholder="123">
+                </div>
+              </div>
+            </div>
+
+            <!-- DETALLE MÉTODO: QR / TRANSFERENCIA -->
+            <div id="payPanel-qr" style="display:none; background:var(--surface-soft); border:2px solid var(--choco-dark); border-radius:14px; padding:18px; text-align:center; margin-bottom:16px;">
+              <strong style="display:block; margin-bottom:8px;">Escanea o transfiere a Cuenta Oficial Dúo Baila Baila</strong>
+              <div style="width:110px; height:110px; margin:10px auto; background:#FFF; border:2px solid var(--choco-dark); border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.8rem;">
+                [QR PAGO SV]
+              </div>
+              <p style="font-size:0.84rem; color:var(--choco-soft);">Banco Agrícola · Cuenta Ahorro: <strong>301-045892-1</strong> · A nombre de Dúo Baila Baila S.A. de C.V.</p>
+            </div>
+
+            <!-- DETALLE MÉTODO: CONTRA ENTREGA -->
+            <div id="payPanel-cash" style="display:none; background:var(--surface-soft); border:2px solid var(--choco-dark); border-radius:14px; padding:16px; margin-bottom:16px; font-size:0.9rem;">
+              <strong>💵 Pago en efectivo al recibir tu paquete:</strong><br>
+              Pagas directamente al mensajero cuando te entregue tu caja cofre sellada en la puerta de tu casa.
+            </div>
+
+            <button type="submit" class="btn btn-coral btn-block" id="submitPayBtn" style="font-size:1.05rem; padding:15px;">
+              🔒 Confirmar y Pagar Pedido
+            </button>
+          </form>
+
+          <!-- COLUMNA DERECHA: RESUMEN DE BOLSA Y CUPÓN -->
+          <div class="craft-card">
+            <h3 style="margin-bottom:14px;">Resumen de tu Orden</h3>
+            <div id="checkoutItemsList"></div>
+
+            <!-- Código promocional -->
+            <div style="display:flex; gap:8px; margin:14px 0;">
+              <input type="text" class="form-control" id="promoInput" placeholder="Código: BAILA10 o ELSALVADOR">
+              <button type="button" class="btn btn-gold btn-sm" onclick="applyPromoCode()">Aplicar</button>
+            </div>
+            <div id="promoStatusMsg" style="font-size:0.82rem; color:var(--green-craft); font-weight:700; margin-bottom:10px;"></div>
+
+            <div style="border-top:2px solid var(--border-sand); padding-top:12px; display:flex; flex-direction:column; gap:8px; font-size:0.95rem;">
+              <div style="display:flex; justify-content:space-between;">
+                <span>Subtotal:</span>
+                <strong id="sumSubtotal">$0.00</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; color:var(--green-craft);">
+                <span>Descuento:</span>
+                <strong id="sumDiscount">-$0.00</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span>Envío:</span>
+                <strong id="sumShipping">$3.00</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-family:var(--font-display); font-size:1.45rem; color:var(--coral); border-top:2px solid var(--choco-dark); padding-top:10px; margin-top:4px;">
+                <span>Total USD:</span>
+                <span id="sumGrandTotal">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPROBANTE DE COMPRA GENERADO (OCULTO HASTA PAGAR) -->
+        <div id="orderReceiptSection" style="display:none; max-width:680px; margin:0 auto;">
+          <div class="craft-card" style="border-width:3px; background:var(--surface-card);">
+            <div style="text-align:center; margin-bottom:18px;">
+              <span class="badge-pill turquoise">✓ PAGO CONFIRMADO EXITOSAMENTE</span>
+              <h2 style="font-size:2rem; margin:12px 0 4px;">¡Gracias por mantener vivas nuestras tradiciones!</h2>
+              <p style="color:var(--choco-soft);">Tu pedido de <strong>DÚO BAILA BAILA</strong> ya está en preparación artesanal.</p>
+            </div>
+
+            <div id="receiptDetailsBox" style="background:var(--bg-cream); border:2px solid var(--choco-dark); border-radius:14px; padding:18px; margin-bottom:18px; font-size:0.92rem;"></div>
+
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;" class="no-print">
+              <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir Comprobante</button>
+              <a href="academia.html" class="btn btn-coral">🎯 Ir a Practicar Retos</a>
+              <a href="tienda.html" class="btn btn-cream">Seguir Explorando</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- HISTORIAL DE PEDIDOS REALIZADOS EN ESTA SESIÓN -->
+        <div id="mis-pedidos" style="margin-top:48px;">
+          <h3 style="margin-bottom:14px;">📦 Mis Pedidos Recientes</h3>
+          <div id="pastOrdersList" class="cards-grid-3"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    injectSharedShell('checkout');
+    let selectedPayment = 'card';
+
+    function selectPaymentMethod(method, el) {
+      selectedPayment = method;
+      document.querySelectorAll('.pay-option').forEach(opt => opt.classList.remove('active'));
+      el.classList.add('active');
+      ['card', 'qr', 'cash'].forEach(m => {
+        document.getElementById('payPanel-' + m).style.display = m === method ? 'block' : 'none';
+      });
+    }
+
+    function formatCardInput(input) {
+      let val = input.value.replace(/\D/g, '').substring(0, 16);
+      let formatted = val.replace(/(.{4})/g, '$1 ').trim();
+      input.value = formatted;
+      document.getElementById('previewCardNumber').textContent = formatted || '•••• •••• •••• 4242';
+    }
+
+    document.getElementById('custName').addEventListener('input', e => {
+      document.getElementById('previewCardHolder').textContent = (e.target.value || 'TITULAR DEL KIT').toUpperCase();
+    });
+
+    function applyPromoCode() {
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
+      if (PROMO_CODES[code]) {
+        Storage.savePromo(code);
+        showToast(`🎉 Cupón ${code} aplicado`);
+      } else {
+        Storage.savePromo('');
+        showToast('⚠️ Código no válido. Prueba BAILA10 o ELSALVADOR');
+      }
+      renderCheckoutSummary();
+    }
+
+    function getShippingCost(subtotalAfterDiscount) {
+      if (subtotalAfterDiscount === 0) return 0;
+      if (subtotalAfterDiscount >= 35) return 0; // Envío gratis > $35
+      const select = document.getElementById('custDept');
+      const opt = select.options[select.selectedIndex];
+      return parseFloat(opt.getAttribute('data-ship')) || 0;
+    }
+
+    function renderCheckoutSummary() {
+      const cart = Storage.getCart();
+      const listEl = document.getElementById('checkoutItemsList');
+      const { subtotal, discount, totalAfterDiscount, promoCode, promoLabel } = getCartTotals();
+
+      if (promoCode) {
+        document.getElementById('promoInput').value = promoCode;
+        document.getElementById('promoStatusMsg').textContent = `✓ Cupón ${promoCode}: ${promoLabel}`;
+      } else {
+        document.getElementById('promoStatusMsg').textContent = '';
+      }
+
+      if (cart.length === 0) {
+        listEl.innerHTML = `<p style="font-size:0.9rem; color:var(--choco-soft); margin-bottom:10px;">No hay productos en tu bolsa. <a href="tienda.html" style="color:var(--coral); font-weight:800;">Agrega un kit aquí</a>.</p>`;
+      } else {
+        listEl.innerHTML = cart.map(item => {
+          const prod = CATALOG.find(p => p.id === item.id);
+          if (!prod) return '';
+          return `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-sand); font-size:0.9rem;">
+              <div>
+                <strong>${prod.name}</strong><br>
+                <span style="font-size:0.8rem; color:var(--choco-soft);">Cantidad: ${item.qty} × $${prod.price.toFixed(2)}</span>
+              </div>
+              <strong>$${(prod.price * item.qty).toFixed(2)}</strong>
+            </div>`;
+        }).join('');
+      }
+
+      const shipping = getShippingCost(totalAfterDiscount);
+      const grandTotal = totalAfterDiscount + shipping;
+
+      document.getElementById('sumSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('sumDiscount').textContent = `-$${discount.toFixed(2)}`;
+      document.getElementById('sumShipping').textContent = shipping === 0 && totalAfterDiscount > 0 ? 'GRATIS ($0.00)' : `$${shipping.toFixed(2)}`;
+      document.getElementById('sumGrandTotal').textContent = `$${grandTotal.toFixed(2)}`;
+    }
+
+    function processSimulatedPayment(e) {
+      e.preventDefault();
+      const cart = Storage.getCart();
+      if (cart.length === 0) {
+        showToast('⚠️ Agrega al menos un producto antes de pagar');
+        return;
+      }
+
+      const btn = document.getElementById('submitPayBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Procesando pago seguro...';
+
+      setTimeout(() => {
+        const { subtotal, discount, totalAfterDiscount } = getCartTotals();
+        const shipping = getShippingCost(totalAfterDiscount);
+        const grandTotal = totalAfterDiscount + shipping;
+        const orderId = 'DBB-' + Math.floor(100000 + Math.random() * 900000);
+
+        const orderRecord = {
+          id: orderId,
+          date: new Date().toLocaleDateString('es-SV', { year: 'numeric', month: 'short', day: 'numeric' }),
+          customer: document.getElementById('custName').value.trim(),
+          dept: document.getElementById('custDept').value,
+          address: document.getElementById('custAddress').value.trim(),
+          paymentMethod: selectedPayment === 'card' ? 'Tarjeta Crédito/Débito' : selectedPayment === 'qr' ? 'Transferencia / QR SV' : 'Pago Contra Entrega',
+          items: cart.map(i => {
+            const p = CATALOG.find(x => x.id === i.id);
+            return `${i.qty}× ${p ? p.name : i.id}`;
+          }),
+          total: grandTotal.toFixed(2),
+          status: 'En preparación artesanal'
+        };
+
+        Storage.saveOrder(orderRecord);
+        Storage.saveCart([]);
+        Storage.savePromo('');
+
+        document.getElementById('checkoutMainGrid').style.display = 'none';
+        const receiptSec = document.getElementById('orderReceiptSection');
+        receiptSec.style.display = 'block';
+        document.getElementById('receiptDetailsBox').innerHTML = `
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px; border-bottom:1.5px dashed var(--choco-dark); padding-bottom:10px;">
+            <span><strong>Orden:</strong> ${orderRecord.id}</span>
+            <span><strong>Fecha:</strong> ${orderRecord.date}</span>
+          </div>
+          <p style="margin-bottom:6px;"><strong>Cliente:</strong> ${orderRecord.customer}</p>
+          <p style="margin-bottom:6px;"><strong>Destino:</strong> ${orderRecord.dept} — ${orderRecord.address}</p>
+          <p style="margin-bottom:6px;"><strong>Método de Pago:</strong> ${orderRecord.paymentMethod}</p>
+          <p style="margin-bottom:10px;"><strong>Artículos:</strong> ${orderRecord.items.join(', ')}</p>
+          <div style="font-family:var(--font-display); font-size:1.3rem; color:var(--coral); text-align:right;">
+            Total Pagado: $${orderRecord.total} USD
+          </div>
+        `;
+
+        renderPastOrders();
+        showToast(`🎉 ¡Orden ${orderId} confirmada!`);
+      }, 950);
+    }
+
+    function renderPastOrders() {
+      const orders = Storage.getOrders();
+      const container = document.getElementById('pastOrdersList');
+      if (orders.length === 0) {
+        container.innerHTML = `<p style="color:var(--choco-soft); font-size:0.92rem;">Aún no has realizado pedidos en este navegador.</p>`;
+        return;
+      }
+      container.innerHTML = orders.map(ord => `
+        <div class="craft-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="badge-pill">${ord.id}</span>
+            <span style="font-size:0.8rem; color:var(--choco-soft);">${ord.date}</span>
+          </div>
+          <strong style="margin-bottom:4px;">${ord.customer}</strong>
+          <p style="font-size:0.85rem; color:var(--choco-soft); margin-bottom:8px;">${ord.items.join(' · ')}</p>
+          <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-sand); padding-top:8px;">
+            <span class="badge-pill turquoise" style="font-size:0.7rem;">${ord.status}</span>
+            <strong style="color:var(--coral);">$${ord.total}</strong>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderCheckoutSummary();
+    renderPastOrders();
+  </script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia & Retos Pro | DÚO BAILA BAILA</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <!-- GUÍA INTERACTIVA PASO A PASO -->
+    <section class="section" style="padding-bottom:36px;">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-pill turquoise">Manual Interactivo Digital</span>
+          <h1>¡Baila Baila Pro! Domina Ambos Juegos</h1>
+          <p>Alterna entre el Trompo y el Capirucho para aprender la técnica exacta paso a paso.</p>
+
+          <div style="margin-top:22px;">
+            <div class="tabs-nav">
+              <button class="tab-btn active" onclick="switchGuideTab('trompo', this)">🪀 1. Cómo Bailar el Trompo</button>
+              <button class="tab-btn" onclick="switchGuideTab('capirucho', this)">🎯 2. Cómo Dominar el Capirucho</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB TROMPO -->
+        <div class="tab-panel active" id="panel-trompo">
+          <div class="cards-grid-3">
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--turquoise); color:#FFF;">1</span>
+              <h3 style="margin-bottom:8px;">Enrolla la cuerda firme</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Haz un nudo corredizo en tu dedo medio. Envuelve la cuerda desde la punta metálica hacia arriba sin dejar espacios sueltos.</p>
+            </div>
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--gold); color:var(--choco-dark);">2</span>
+              <h3 style="margin-bottom:8px;">Lanza y jala hacia atrás</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Sujeta el trompo con la punta hacia arriba, lánzalo con firmeza al suelo y jala la cuerda hacia atrás justo antes de que toque el piso.</p>
+            </div>
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--coral); color:#FFF;">3</span>
+              <h3 style="margin-bottom:8px;">¡A bailar y hacer trucos!</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Cuando gire estable ("dormilón"), usa la cuerda para levantarlo en el aire o pasarlo bailando a la palma de tu mano.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CAPIRUCHO -->
+        <div class="tab-panel" id="panel-capirucho">
+          <div class="cards-grid-3">
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--turquoise); color:#FFF;">1</span>
+              <h3 style="margin-bottom:8px;">Sujeta el palito en vertical</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Deja colgar la campana del capirucho completamente quieta para evitar que se balancee hacia los lados.</p>
+            </div>
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--gold); color:var(--choco-dark);">2</span>
+              <h3 style="margin-bottom:8px;">Impulso recto hacia arriba</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Flexiona levemente las rodillas y eleva la muñeca con suavidad para que el capirucho suba verticalmente.</p>
+            </div>
+            <div class="craft-card">
+              <span class="step-number" style="background:var(--coral); color:#FFF;">3</span>
+              <h3 style="margin-bottom:8px;">¡Ensarta en el punto más alto!</h3>
+              <p style="font-size:0.92rem; color:var(--choco-soft);">Mantén la vista en el orificio y acompaña la caída bajando un poco la mano para suavizar el impacto.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CRONÓMETRO PARA EL RETO DEL DORMILÓN -->
+        <div class="craft-card" style="margin-top:28px; background:var(--surface-soft); flex-direction:row; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px;">
+          <div>
+            <span class="badge-pill gold" style="margin-bottom:6px;">Herramienta de Práctica</span>
+            <h3>⏱️ Cronómetro Oficial del "Dormilón"</h3>
+            <p style="font-size:0.9rem; color:var(--choco-soft);">Mide cuántos segundos logra bailar tu trompo sin detenerse (Meta Reto #01: <strong>10.0 seg</strong>).</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+            <div id="timerDisplay" style="font-family:var(--font-display); font-size:2.2rem; background:#FFF; border:2.5px solid var(--choco-dark); padding:8px 20px; border-radius:14px; min-width:140px; text-align:center;">00.0s</div>
+            <button class="btn btn-turquoise btn-sm" id="timerStartBtn" onclick="toggleTimer()">▶ Iniciar</button>
+            <button class="btn btn-cream btn-sm" onclick="resetTimer()">↺ Reiniciar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BITÁCORA INTERACTIVA DE 4 RETOS PRO -->
+    <section class="section" id="retos" style="padding-top:20px;">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-pill coral">Bitácora del Jugador</span>
+          <h2>Marca tus 4 Retos Superados</h2>
+          <p>Haz clic sobre cada tarjeta cuando logres dominar el truco 3 veces seguidas y desbloquea tu Diploma Oficial.</p>
+        </div>
+
+        <div class="progress-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <strong style="font-size:1.05rem;">Progreso Maestro Dúo Baila Baila:</strong>
+              <span id="progressLabel" style="color:var(--coral); font-weight:800; margin-left:8px;">0 de 4 retos completados</span>
+            </div>
+            <button class="btn btn-gold btn-sm" id="openCertBtn" onclick="openCertificateModal()" disabled style="opacity:0.55;">
+              🏆 Ver Certificado Maestro
+            </button>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="challengesProgressFill"></div>
+          </div>
+          <p style="font-size:0.84rem; color:var(--choco-soft);">Tip: Completa los 4 retos para activar tu diploma descargable con tu nombre.</p>
+        </div>
+
+        <div class="cards-grid-4" id="challengesGrid"></div>
+      </div>
+    </section>
+
+    <!-- GALERÍA DE LOS 7 STICKERS COLECCIONABLES -->
+    <section class="section bg-choco-pattern">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-pill gold">Recuerdos Baila Baila</span>
+          <h2 style="color:#FFFFFF;">Los 7 Stickers del Set Vol. 1</h2>
+          <p style="color:rgba(255,255,255,0.85);">Insignias incluidas en tu caja para personalizar tu cuaderno, termo o estuche.</p>
+        </div>
+
+        <div class="stickers-showcase" style="color:var(--choco-dark);">
+          <div class="sticker-item">
+            <div style="font-weight:900; color:var(--coral); font-family:var(--font-display);">✦ DÚO ✦</div>
+            <div style="font-weight:900; font-family:var(--font-display); margin-bottom:6px;">BAILA BAILA</div>
+            <span class="badge-pill" style="font-size:0.68rem;">VOL. 1 · SV</span>
+          </div>
+          <div class="sticker-item">
+            <div style="font-size:1.5rem; margin-bottom:4px;">🪀</div>
+            <div style="font-weight:800; font-size:0.85rem;">SI NO BAILA, ¡INTÉNTALO OTRA VEZ!</div>
+          </div>
+          <div class="sticker-item">
+            <div style="font-weight:800; font-size:0.82rem; margin-bottom:8px;">ESTE KIT PERTENECE A:</div>
+            <div style="border-bottom:2px dashed var(--choco-dark); height:18px;"></div>
+          </div>
+          <div class="sticker-item" style="background:var(--turquoise); color:#FFF; border-color:#FFF;">
+            <div style="font-family:var(--font-display); font-size:1.05rem;">★ ¡BAILA BAILA PRO! ★</div>
+          </div>
+          <div class="sticker-item">
+            <div style="font-weight:900; color:var(--coral); font-size:0.9rem;">100% TRADICIÓN</div>
+            <span class="badge-pill gold" style="font-size:0.68rem; margin-top:6px;">EL SALVADOR</span>
+          </div>
+          <div class="sticker-item">
+            <div style="font-size:1.5rem; margin-bottom:4px;">🎯</div>
+            <div style="font-weight:900; font-size:0.85rem; color:var(--coral);">RETO SUPERADO</div>
+          </div>
+          <div class="sticker-item">
+            <div style="font-weight:900; font-size:0.84rem;">¡DIVIÉRTETE Y COMPARTE!</div>
+            <div style="font-size:0.7rem; color:var(--coral); font-weight:800; margin-top:4px;">MEMORIA · IDENTIDAD</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL CERTIFICADO MAESTRO -->
+  <div class="modal-overlay" id="certModal" onclick="if(event.target===this) closeCertModal()">
+    <div class="modal-box" style="background:var(--bg-cream); border:4px solid var(--choco-dark); text-align:center;">
+      <button class="modal-close no-print" onclick="closeCertModal()">✕</button>
+      <div style="border:3px double var(--coral); border-radius:18px; padding:26px; background:var(--surface-card);">
+        <span class="badge-pill gold">DIPLOMA OFICIAL · VOL. 1</span>
+        <h2 style="font-size:1.9rem; margin:14px 0 6px; color:var(--coral);">¡MAESTRO DÚO BAILA BAILA!</h2>
+        <p style="font-size:0.92rem; color:var(--choco-soft);">Se otorga el presente reconocimiento tradicional a:</p>
+
+        <div style="margin:16px auto; max-width:340px;">
+          <input type="text" id="certPlayerNameInput" class="form-control" placeholder="Escribe tu nombre aquí..." style="text-align:center; font-family:var(--font-display); font-size:1.25rem;" oninput="Storage.savePlayerName(this.value)">
+        </div>
+
+        <p style="font-size:0.9rem; margin-bottom:18px;">
+          Por haber superado con éxito los <strong>4 Retos Oficiales</strong> de Trompo y Capirucho, manteniendo vivas las tradiciones de <strong>El Salvador</strong>.
+        </p>
+
+        <div class="pillars-row" style="justify-content:center; margin-bottom:20px;">
+          <span class="pillar-chip">MEMORIA</span>
+          <span class="pillar-chip">IDENTIDAD</span>
+          <span class="pillar-chip">PERTENENCIA</span>
+        </div>
+
+        <button class="btn btn-coral no-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    injectSharedShell('academia');
+
+    const CHALLENGES_DATA = [
+      {
+        id: 'reto-1',
+        num: 'RETO #01',
+        toy: 'TROMPO',
+        level: 'NIVEL 1 · INICIACIÓN',
+        color: 'var(--turquoise)',
+        title: 'El Bailarín',
+        desc: 'Lanza el trompo con giro limpio y logra que se quede "dormido" girando sin tambalear por 10 segundos.'
+      },
+      {
+        id: 'reto-2',
+        num: 'RETO #02',
+        toy: 'CAPIRUCHO',
+        level: 'NIVEL 2 · INTERMEDIO',
+        color: 'var(--gold)',
+        title: 'Tiro Directo',
+        desc: 'Eleva el capirucho en línea recta y ensártalo en el palito en un solo impulso limpio.'
+      },
+      {
+        id: 'reto-3',
+        num: 'RETO #03',
+        toy: 'TROMPO',
+        level: 'NIVEL 3 · AVANZADO',
+        color: 'var(--coral)',
+        title: 'Dormilón en Mano',
+        desc: 'Rodea la punta con la cuerda, levántalo del suelo con un tirón y atrápalo bailando en tu palma.'
+      },
+      {
+        id: 'reto-4',
+        num: 'RETO #04',
+        toy: 'DÚO PRO',
+        level: 'NIVEL 4 · MAESTRO DÚO',
+        color: 'var(--choco-dark)',
+        title: 'Reto Baila Baila',
+        desc: 'Pon a bailar el trompo en el piso y ensarta 3 veces el capirucho antes de que el trompo se detenga.'
+      }
+    ];
+
+    function switchGuideTab(tabName, btnEl) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btnEl.classList.add('active');
+      document.getElementById('panel-' + tabName).classList.add('active');
+    }
+
+    function renderChallenges() {
+      const completed = Storage.getChallenges();
+      const grid = document.getElementById('challengesGrid');
+      grid.innerHTML = CHALLENGES_DATA.map(ch => {
+        const isDone = completed.includes(ch.id);
+        return `
+          <div class="craft-card challenge-card ${isDone ? 'completed' : ''}" onclick="toggleChallenge('${ch.id}')">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span class="badge-pill" style="background:${ch.color}; color:#FFF;">${ch.num}</span>
+              <strong style="font-size:0.78rem;">${ch.toy}</strong>
+            </div>
+            <h3 style="margin-bottom:8px;">${ch.title}</h3>
+            <p style="font-size:0.88rem; color:var(--choco-soft); flex:1;">${ch.desc}</p>
+            <div style="font-size:0.75rem; font-weight:800; margin-top:10px; color:var(--choco-mid);">${ch.level}</div>
+            <div class="challenge-check">
+              ${isDone ? '✅ ¡Reto Superado!' : '⬜ Marcar como superado'}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const count = completed.length;
+      const pct = (count / CHALLENGES_DATA.length) * 100;
+      document.getElementById('progressLabel').textContent = `${count} de 4 retos completados`;
+      document.getElementById('challengesProgressFill').style.width = pct + '%';
+
+      const certBtn = document.getElementById('openCertBtn');
+      if (count === 4) {
+        certBtn.disabled = false;
+        certBtn.style.opacity = '1';
+      } else {
+        certBtn.disabled = true;
+        certBtn.style.opacity = '0.55';
+      }
+    }
+
+    function toggleChallenge(id) {
+      let completed = Storage.getChallenges();
+      if (completed.includes(id)) {
+        completed = completed.filter(c => c !== id);
+      } else {
+        completed.push(id);
+        showToast('⭐ ¡Reto marcado como superado!');
+        if (completed.length === 4) {
+          setTimeout(() => {
+            showToast('🏆 ¡Felicidades! Desbloqueaste tu Certificado Maestro');
+            openCertificateModal();
+          }, 450);
+        }
+      }
+      Storage.saveChallenges(completed);
+      renderChallenges();
+    }
+
+    function openCertificateModal() {
+      const input = document.getElementById('certPlayerNameInput');
+      input.value = Storage.getPlayerName();
+      document.getElementById('certModal').classList.add('open');
+    }
+
+    function closeCertModal() {
+      document.getElementById('certModal').classList.remove('open');
+    }
+
+    /* Cronómetro */
+    let timerInterval = null;
+    let elapsedTenths = 0;
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerStartBtn');
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = '▶ Continuar';
+        if (elapsedTenths >= 100) {
+          showToast('🔥 ¡Superaste los 10 segundos del Reto #01!');
+        }
+      } else {
+        btn.textContent = '⏸ Pausar';
+        timerInterval = setInterval(() => {
+          elapsedTenths++;
+          const secs = (elapsedTenths / 10).toFixed(1).padStart(4, '0');
+          document.getElementById('timerDisplay').textContent = `${secs}s`;
+        }, 100);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      elapsedTenths = 0;
+      document.getElementById('timerDisplay').textContent = '00.0s';
+      document.getElementById('timerStartBtn').textContent = '▶ Iniciar';
+    }
+
+    renderChallenges();
+  </script>
+</body>
+</html>

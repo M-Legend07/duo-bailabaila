@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memoria, Identidad y Pertenencia | DÚO BAILA BAILA El Salvador</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="section" style="padding-bottom:36px;">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-pill">Cultura Viva · El Salvador</span>
+          <h1>Memoria · Identidad · Pertenencia</h1>
+          <p>
+            DÚO BAILA BAILA es una colección que celebra los juegos tradicionales de El Salvador, invitando a niños, jóvenes y adultos a redescubrir la diversión de jugar sin pantallas.
+          </p>
+        </div>
+
+        <div class="cards-grid-3">
+          <div class="craft-card">
+            <span class="badge-pill coral" style="align-self:flex-start; margin-bottom:12px;">PILAR 01</span>
+            <h3 style="margin-bottom:8px;">Memoria</h3>
+            <p style="font-size:0.92rem; color:var(--choco-soft);">Rescatamos las tardes de barrio, las plazas y los patios escolares donde abuelos, padres e hijos compartían sus mejores trucos con la cuerda.</p>
+          </div>
+          <div class="craft-card">
+            <span class="badge-pill turquoise" style="align-self:flex-start; margin-bottom:12px;">PILAR 02</span>
+            <h3 style="margin-bottom:8px;">Identidad</h3>
+            <p style="font-size:0.92rem; color:var(--choco-soft);">Cada franja de color y cada curva torneada en madera refleja el oficio artesanal salvadoreño y el orgullo por nuestras raíces.</p>
+          </div>
+          <div class="craft-card">
+            <span class="badge-pill gold" style="align-self:flex-start; margin-bottom:12px;">PILAR 03</span>
+            <h3 style="margin-bottom:8px;">Pertenencia</h3>
+            <p style="font-size:0.92rem; color:var(--choco-soft);">Jugar juntos crea comunidad. Cada jugada es una oportunidad para mejorar, divertirse y convertirse en un verdadero experto de nuestras tradiciones.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO FUNCIONAL PARA COLEGIOS, EVENTOS Y REGALOS CORPORATIVOS -->
+    <section class="section bg-choco-pattern" id="contacto">
+      <div class="container">
+        <div class="checkout-grid" style="align-items:center;">
+          <div>
+            <span class="badge-pill gold" style="margin-bottom:12px;">Kits por Mayor & Talleres</span>
+            <h2 style="font-size:2.2rem; margin-bottom:14px;">¿Buscas kits para colegios, ferias culturales o regalos?</h2>
+            <p style="opacity:0.9; margin-bottom:18px;">
+              Preparamos lotes personalizados de <strong>DÚO BAILA BAILA — Vol. 1</strong> a partir de 15 unidades para instituciones educativas, eventos culturales y empresas en todo El Salvador.
+            </p>
+            <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:0.92rem;">
+              <li>✓ Descuentos escalonados por volumen (15, 50 y 100+ kits).</li>
+              <li>✓ Opción de tarjetón personalizado con el logo de tu institución.</li>
+              <li>✓ Envíos a los 14 departamentos de El Salvador.</li>
+            </ul>
+          </div>
+
+          <div class="craft-card" style="color:var(--choco-dark);">
+            <h3 style="margin-bottom:14px;">Solicita tu Cotización</h3>
+            <form id="institutionalForm" onsubmit="submitInstitutionalQuote(event)">
+              <div class="form-group">
+                <label>Nombre completo o Institución</label>
+                <input type="text" class="form-control" id="instName" required placeholder="Universidad Dr. José Matías Delgado">
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>Correo electrónico</label>
+                  <input type="email" class="form-control" id="instEmail" required placeholder="correo@ejemplo.sv">
+                </div>
+                <div class="form-group">
+                  <label>Cantidad de kits</label>
+                  <select class="form-control" id="instQty">
+                    <option value="1-14 kits">Menos de 14 kits</option>
+                    <option value="15-30 kits">15 a 30 kits</option>
+                    <option value="31-60 kits">31 a 60 kits</option>
+                    <option value="60+ kits">Más de 60 kits</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Detalles del evento o fecha deseada</label>
+                <textarea class="form-control" id="instNotes" rows="3" placeholder="Cuéntanos para qué fecha los necesitas..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-coral btn-block">Enviar Solicitud →</button>
+            </form>
+            <div id="instQuoteResult" style="display:none; margin-top:14px; padding:14px; background:#F0FDF4; border:2px solid var(--green-craft); border-radius:12px; font-size:0.9rem;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="js/app.js"></script>
+  <script>
+    injectSharedShell('tradicion');
+
+    function submitInstitutionalQuote(e) {
+      e.preventDefault();
+      const name = document.getElementById('instName').value.trim();
+      const qty = document.getElementById('instQty').value;
+      const box = document.getElementById('instQuoteResult');
+      box.style.display = 'block';
+      box.innerHTML = `✅ <strong>¡Solicitud recibida, ${name}!</strong> Hemos registrado tu interés por <strong>${qty}</strong> del Set Vol. 1. Nuestro equipo artesanal en San Salvador te responderá en menos de 24 horas.`;
+      e.target.reset();
+      showToast('📩 Cotización enviada con éxito');
+    }
+  </script>
+</body>
+</html>
